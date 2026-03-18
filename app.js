@@ -121,7 +121,12 @@ const state = {
   unlockedClues: 0,
   selectedAnswer: null,
   activeMissionIndex: 0,
-  deductionUnlocked: false
+  deductionUnlocked: false,
+  achievements: {
+    firstSpark: false,
+    clueHunter: false,
+    streakMaster: false
+  }
 };
 
 const elements = {
@@ -138,9 +143,12 @@ const elements = {
   rankValue: document.getElementById("rankValue"),
   progressBadge: document.getElementById("progressBadge"),
   nextReward: document.getElementById("nextReward"),
+  mysteryMeter: document.getElementById("mysteryMeter"),
   missionTitle: document.getElementById("missionTitle"),
   missionSubject: document.getElementById("missionSubject"),
   missionStory: document.getElementById("missionStory"),
+  cycleLabel: document.getElementById("cycleLabel"),
+  cycleMeter: document.getElementById("cycleMeter"),
   questionCard: document.getElementById("questionCard"),
   feedbackCard: document.getElementById("feedbackCard"),
   submitAnswerButton: document.getElementById("submitAnswerButton"),
@@ -150,13 +158,29 @@ const elements = {
   clueBoard: document.getElementById("clueBoard"),
   clueBoardBadge: document.getElementById("clueBoardBadge"),
   deductionLock: document.getElementById("deductionLock"),
+  storyBeat: document.getElementById("storyBeat"),
+  chapterTimeline: document.getElementById("chapterTimeline"),
+  achievementList: document.getElementById("achievementList"),
+  liveHint: document.getElementById("liveHint"),
   culpritSelect: document.getElementById("culpritSelect"),
   timeSelect: document.getElementById("timeSelect"),
   placeSelect: document.getElementById("placeSelect"),
   solveCaseButton: document.getElementById("solveCaseButton"),
   solutionCard: document.getElementById("solutionCard"),
-  startMissionButton: document.getElementById("startMissionButton")
+  startMissionButton: document.getElementById("startMissionButton"),
+  celebrationModal: document.getElementById("celebrationModal"),
+  celebrationTitle: document.getElementById("celebrationTitle"),
+  celebrationBody: document.getElementById("celebrationBody"),
+  closeCelebrationButton: document.getElementById("closeCelebrationButton")
 };
+
+const storyBeats = [
+  "時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。",
+  "針に残った不自然な跡。誰かが機械ではなく別の方法で時計を止めたようだ。",
+  "アリバイが揺らぎ始めた。記録と証言をつなぐと、本当の時刻が見えてくる。",
+  "展示室ではなく、祭りの屋台側に犯人の手がかりが集まり始めている。",
+  "最後の証拠がそろった。今なら真相を言葉にできる。"
+];
 
 function renderSuspects() {
   elements.suspectList.innerHTML = caseData.suspects
@@ -208,6 +232,11 @@ function renderStatus() {
   elements.progressBadge.textContent = `${progress}%`;
   elements.clueBoardBadge.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
   elements.nextReward.textContent = `次の手がかりまであと${Math.max(0, 3 - state.answeredInCycle)}問`;
+  elements.cycleLabel.textContent = `${state.answeredInCycle} / 3 問`;
+  elements.mysteryMeter.style.width = `${progress}%`;
+  elements.cycleMeter.style.width = `${(state.answeredInCycle / 3) * 100}%`;
+  elements.storyBeat.textContent = storyBeats[state.unlockedClues];
+  elements.liveHint.textContent = getLiveHint();
 
   if (state.unlockedClues >= 4) {
     elements.rankValue.textContent = "名探偵候補";
@@ -220,6 +249,22 @@ function renderStatus() {
   elements.deductionLock.textContent = state.deductionUnlocked
     ? "すべての手がかりがそろった"
     : "手がかりを4つ集めると解放";
+}
+
+function getLiveHint() {
+  if (state.unlockedClues === 0) {
+    return "時計塔の近くで見つかった小さな違和感を集めよう。";
+  }
+  if (state.unlockedClues === 1) {
+    return "甘いシロップは現場より屋台の気配が強い。";
+  }
+  if (state.unlockedClues === 2) {
+    return "記録が残る人物は、犯行時刻から外れているかもしれない。";
+  }
+  if (state.unlockedClues === 3) {
+    return "磁石、時計、箱。この3つを並べると真相が見える。";
+  }
+  return "手がかりはそろった。推理画面で犯人と時刻と隠し場所を選ぼう。";
 }
 
 function setScreen(screen) {
@@ -274,6 +319,81 @@ function renderMission() {
   });
 }
 
+function renderTimeline() {
+  const chapters = [
+    {
+      title: "第1章 現場の違和感",
+      body: "止まった針と祭りの空気から、最初のズレを見つける。 "
+    },
+    {
+      title: "第2章 記録の穴",
+      body: "司会原稿と見回り記録から、アリバイを切り分ける。"
+    },
+    {
+      title: "第3章 屋台の秘密",
+      body: "展示室ではなく、屋台側に犯人の痕跡が集まる。"
+    },
+    {
+      title: "第4章 真相の言語化",
+      body: "犯人、時刻、隠し場所を1つの推理にまとめる。"
+    }
+  ];
+
+  elements.chapterTimeline.innerHTML = chapters
+    .map((chapter, index) => {
+      let stateClass = "locked";
+      if (index < state.unlockedClues) {
+        stateClass = "completed";
+      } else if (index === state.unlockedClues || (index === 3 && state.deductionUnlocked)) {
+        stateClass = "active";
+      }
+
+      return `
+        <article class="chapter-step ${stateClass}">
+          <h3>${chapter.title}</h3>
+          <p>${chapter.body}</p>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderAchievements() {
+  const achievements = [
+    {
+      key: "firstSpark",
+      icon: "01",
+      title: "ひらめきスタート",
+      body: "最初の正解で調査が動き出す。"
+    },
+    {
+      key: "clueHunter",
+      icon: "02",
+      title: "手がかりハンター",
+      body: "2つ以上の証拠を開いて真相に近づく。"
+    },
+    {
+      key: "streakMaster",
+      icon: "03",
+      title: "連続推理マスター",
+      body: "3連続正解で調査テンポを上げる。"
+    }
+  ];
+
+  elements.achievementList.innerHTML = achievements
+    .map((achievement) => {
+      const unlocked = state.achievements[achievement.key];
+      return `
+        <article class="achievement-card ${unlocked ? "unlocked" : ""}">
+          <div class="achievement-icon">${achievement.icon}</div>
+          <h3>${achievement.title}</h3>
+          <p>${unlocked ? achievement.body : "まだロック中。遊びながら解放しよう。"}</p>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function unlockClueIfNeeded() {
   if (state.answeredInCycle < 3) {
     return null;
@@ -293,9 +413,27 @@ function unlockClueIfNeeded() {
   return null;
 }
 
+function updateAchievements() {
+  if (state.spark >= 1) {
+    state.achievements.firstSpark = true;
+  }
+  if (state.unlockedClues >= 2) {
+    state.achievements.clueHunter = true;
+  }
+  if (state.streak >= 3) {
+    state.achievements.streakMaster = true;
+  }
+}
+
 function showFeedback(type, title, body) {
   elements.feedbackCard.className = `feedback-card ${type}`;
   elements.feedbackCard.innerHTML = `<strong>${title}</strong><p>${body}</p>`;
+}
+
+function showCelebration(title, body) {
+  elements.celebrationTitle.textContent = title;
+  elements.celebrationBody.textContent = body;
+  elements.celebrationModal.classList.remove("hidden");
 }
 
 function submitAnswer() {
@@ -317,6 +455,7 @@ function submitAnswer() {
   }
 
   const unlockedClue = unlockClueIfNeeded();
+  updateAchievements();
 
   if (isCorrect) {
     const clueMessage = unlockedClue
@@ -333,8 +472,14 @@ function submitAnswer() {
   renderStatus();
   renderNotebook();
   renderClueBoard();
+  renderTimeline();
+  renderAchievements();
   elements.submitAnswerButton.disabled = true;
   elements.nextQuestionButton.classList.remove("hidden");
+
+  if (unlockedClue) {
+    showCelebration(unlockedClue.title, `${unlockedClue.summary} ${unlockedClue.effect}`);
+  }
 }
 
 function nextMission() {
@@ -397,6 +542,9 @@ function solveCase() {
     place === caseData.solution.place;
 
   if (isSolved) {
+    state.achievements.clueHunter = true;
+    state.achievements.streakMaster = state.achievements.streakMaster || state.streak >= 3;
+    renderAchievements();
     elements.solutionCard.className = "solution-card success";
     elements.solutionCard.innerHTML = `
       <strong>事件解決</strong>
@@ -425,6 +573,9 @@ function bindEvents() {
   elements.nextQuestionButton.addEventListener("click", nextMission);
   elements.changeMissionButton.addEventListener("click", nextMission);
   elements.solveCaseButton.addEventListener("click", solveCase);
+  elements.closeCelebrationButton.addEventListener("click", () => {
+    elements.celebrationModal.classList.add("hidden");
+  });
 }
 
 function init() {
@@ -433,6 +584,8 @@ function init() {
   renderStatus();
   renderMission();
   renderClueBoard();
+  renderTimeline();
+  renderAchievements();
   fillSelectOptions();
   bindEvents();
 }

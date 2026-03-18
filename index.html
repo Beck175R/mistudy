@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <div class="background-layer">
+    <div class="fog fog-a"></div>
+    <div class="fog fog-b"></div>
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+  </div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
@@ -69,14 +75,42 @@
               算数・国語・英語のミッションを解くと、人物証言や時計塔の秘密が少しずつ開放されます。
               1回3問の短い調査で、テンポよく遊べる設計です。
             </p>
+            <div class="story-ribbon">
+              <span class="story-ribbon-label">捜査速報</span>
+              <p id="storyBeat">時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。</p>
+            </div>
           </div>
           <div class="hero-card">
             <p class="hero-card-title">今日のプレイ目標</p>
             <strong>3つの手がかりを発見する</strong>
             <p id="nextReward">次の手がかりまであと3問</p>
             <button id="startMissionButton" class="primary-button">最初の調査を始める</button>
+            <div class="hero-meter">
+              <span>事件解決までの気配</span>
+              <div class="meter-track">
+                <div id="mysteryMeter" class="meter-fill"></div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <section class="dashboard-grid secondary-grid">
+          <article class="panel chapter-card">
+            <div class="panel-head">
+              <h2>事件の流れ</h2>
+              <span class="mini-badge">4章構成</span>
+            </div>
+            <div id="chapterTimeline" class="chapter-timeline"></div>
+          </article>
+
+          <article class="panel reward-card">
+            <div class="panel-head">
+              <h2>探偵バッジ</h2>
+              <span class="mini-badge">達成感</span>
+            </div>
+            <div id="achievementList" class="achievement-list"></div>
+          </article>
+        </section>
 
         <section class="dashboard-grid">
           <article class="panel spotlight-card">
@@ -113,6 +147,15 @@
               <span id="missionSubject" class="subject-badge">算数</span>
             </div>
             <p id="missionStory" class="mission-story"></p>
+            <div class="mission-progress">
+              <div class="mission-progress-copy">
+                <span>今回の調査セット</span>
+                <strong id="cycleLabel">0 / 3 問</strong>
+              </div>
+              <div class="meter-track compact">
+                <div id="cycleMeter" class="meter-fill"></div>
+              </div>
+            </div>
             <div id="questionCard" class="question-card"></div>
             <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
             <div class="action-row">
@@ -134,6 +177,10 @@
             <div class="streak-box">
               <span>現在の連続正解</span>
               <strong id="streakValue">0</strong>
+            </div>
+            <div class="side-story">
+              <span>調査メモ</span>
+              <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
             </div>
           </aside>
         </div>
@@ -182,6 +229,15 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <div id="celebrationModal" class="celebration-modal hidden" aria-live="polite">
+    <div class="celebration-card">
+      <p class="eyebrow">Clue Unlocked</p>
+      <h2 id="celebrationTitle">新しい手がかりを発見</h2>
+      <p id="celebrationBody"></p>
+      <button id="closeCelebrationButton" class="primary-button">調査を続ける</button>
+    </div>
   </div>
 
   <script src="./app.js"></script>
