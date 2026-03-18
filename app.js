@@ -114,7 +114,6 @@ const missionDeck = [
 ];
 
 const state = {
-  screen: "home",
   spark: 0,
   streak: 0,
   answeredInCycle: 0,
@@ -130,12 +129,6 @@ const state = {
 };
 
 const elements = {
-  navButtons: document.querySelectorAll(".nav-button"),
-  screens: {
-    home: document.getElementById("homeScreen"),
-    investigation: document.getElementById("investigationScreen"),
-    deduction: document.getElementById("deductionScreen")
-  },
   suspectList: document.getElementById("suspectList"),
   notebookPreview: document.getElementById("notebookPreview"),
   sparkValue: document.getElementById("sparkValue"),
@@ -167,7 +160,6 @@ const elements = {
   placeSelect: document.getElementById("placeSelect"),
   solveCaseButton: document.getElementById("solveCaseButton"),
   solutionCard: document.getElementById("solutionCard"),
-  startMissionButton: document.getElementById("startMissionButton"),
   celebrationModal: document.getElementById("celebrationModal"),
   celebrationTitle: document.getElementById("celebrationTitle"),
   celebrationBody: document.getElementById("celebrationBody"),
@@ -265,16 +257,6 @@ function getLiveHint() {
     return "磁石、時計、箱。この3つを並べると真相が見える。";
   }
   return "手がかりはそろった。推理画面で犯人と時刻と隠し場所を選ぼう。";
-}
-
-function setScreen(screen) {
-  state.screen = screen;
-  Object.entries(elements.screens).forEach(([key, node]) => {
-    node.classList.toggle("active", key === screen);
-  });
-  elements.navButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.screen === screen);
-  });
 }
 
 function getCurrentMission() {
@@ -561,14 +543,6 @@ function solveCase() {
 }
 
 function bindEvents() {
-  elements.navButtons.forEach((button) => {
-    button.addEventListener("click", () => setScreen(button.dataset.screen));
-  });
-
-  elements.startMissionButton.addEventListener("click", () => {
-    setScreen("investigation");
-  });
-
   elements.submitAnswerButton.addEventListener("click", submitAnswer);
   elements.nextQuestionButton.addEventListener("click", nextMission);
   elements.changeMissionButton.addEventListener("click", nextMission);
