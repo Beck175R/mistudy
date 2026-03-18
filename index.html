@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+  <title>Mystery Study Quest</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <p class="brand-kicker">学習推理アドベンチャー</p>
+        <h1>Mystery Study Quest</h1>
+        <p class="brand-copy">問題を解くたびに、止まった時計塔事件の真相へ。</p>
+      </div>
+
+      <section class="panel status-panel">
+        <div class="panel-head">
+          <h2>調査ステータス</h2>
+          <span id="progressBadge" class="badge">0%</span>
+        </div>
+        <div class="status-grid">
+          <article class="status-card">
+            <span class="status-label">ひらめき</span>
+            <strong id="sparkValue">0</strong>
+          </article>
+          <article class="status-card">
+            <span class="status-label">開いた手がかり</span>
+            <strong id="clueValue">0 / 4</strong>
+          </article>
+          <article class="status-card">
+            <span class="status-label">推理レベル</span>
+            <strong id="rankValue">見習い探偵</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel case-panel">
+        <div class="panel-head">
+          <h2>今回の事件</h2>
+          <span class="case-chip">Case 01</span>
+        </div>
+        <p class="case-title">止まった時計塔と消えた星のペンダント</p>
+        <p class="case-summary">
+          お祭りの夜、町の時計塔が午後7時ぴったりで止まり、展示されていた星のペンダントが消えた。
+          君は調査ノートを使って、4つの手がかりを集めて真犯人を見つける。
+        </p>
+      </section>
+
+      <nav class="panel nav-panel" aria-label="メニュー">
+        <button class="nav-button active" data-screen="home">ホーム</button>
+        <button class="nav-button" data-screen="investigation">調査</button>
+        <button class="nav-button" data-screen="deduction">推理</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section id="homeScreen" class="screen active">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Mission Start</p>
+            <h2>勉強すると、物語が進む。</h2>
+            <p>
+              算数・国語・英語のミッションを解くと、人物証言や時計塔の秘密が少しずつ開放されます。
+              1回3問の短い調査で、テンポよく遊べる設計です。
+            </p>
+          </div>
+          <div class="hero-card">
+            <p class="hero-card-title">今日のプレイ目標</p>
+            <strong>3つの手がかりを発見する</strong>
+            <p id="nextReward">次の手がかりまであと3問</p>
+            <button id="startMissionButton" class="primary-button">最初の調査を始める</button>
+          </div>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="panel spotlight-card">
+            <div class="panel-head">
+              <h2>町の登場人物</h2>
+              <span class="mini-badge">4人</span>
+            </div>
+            <div id="suspectList" class="suspect-list"></div>
+          </article>
+
+          <article class="panel notebook-card">
+            <div class="panel-head">
+              <h2>調査ノート</h2>
+              <span class="mini-badge">更新される</span>
+            </div>
+            <div id="notebookPreview" class="notebook-preview"></div>
+          </article>
+        </section>
+      </section>
+
+      <section id="investigationScreen" class="screen">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Investigation</p>
+            <h2>ひらめきミッション</h2>
+          </div>
+          <button id="changeMissionButton" class="ghost-button">ミッションを変える</button>
+        </div>
+
+        <div class="mission-layout">
+          <article class="panel mission-card">
+            <div class="panel-head">
+              <h3 id="missionTitle">ミッションを準備中...</h3>
+              <span id="missionSubject" class="subject-badge">算数</span>
+            </div>
+            <p id="missionStory" class="mission-story"></p>
+            <div id="questionCard" class="question-card"></div>
+            <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+            <div class="action-row">
+              <button id="submitAnswerButton" class="primary-button">回答する</button>
+              <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+            </div>
+          </article>
+
+          <aside class="panel side-hints">
+            <div class="panel-head">
+              <h3>調査ルール</h3>
+              <span class="mini-badge">3問ごと</span>
+            </div>
+            <ul class="rule-list">
+              <li>1問正解でひらめき +1</li>
+              <li>3問終わると新しい手がかりが開く</li>
+              <li>手がかりが4つそろうと推理フェーズ解放</li>
+            </ul>
+            <div class="streak-box">
+              <span>現在の連続正解</span>
+              <strong id="streakValue">0</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="deductionScreen" class="screen">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Deduction</p>
+            <h2>推理タイム</h2>
+          </div>
+          <span id="deductionLock" class="lock-label">手がかりを4つ集めると解放</span>
+        </div>
+
+        <div class="deduction-layout">
+          <article class="panel clue-board">
+            <div class="panel-head">
+              <h3>手がかりボード</h3>
+              <span id="clueBoardBadge" class="mini-badge">0 / 4</span>
+            </div>
+            <div id="clueBoard" class="clue-board-grid"></div>
+          </article>
+
+          <article class="panel answer-board">
+            <div class="panel-head">
+              <h3>真相を推理する</h3>
+              <span class="mini-badge">最終解答</span>
+            </div>
+            <div class="form-stack">
+              <label class="select-block">
+                <span>犯人はだれ？</span>
+                <select id="culpritSelect"></select>
+              </label>
+              <label class="select-block">
+                <span>事件が起きた本当の時刻は？</span>
+                <select id="timeSelect"></select>
+              </label>
+              <label class="select-block">
+                <span>ペンダントはどこに隠された？</span>
+                <select id="placeSelect"></select>
+              </label>
+            </div>
+            <button id="solveCaseButton" class="primary-button full-width">事件を解決する</button>
+            <div id="solutionCard" class="solution-card hidden" aria-live="polite"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
