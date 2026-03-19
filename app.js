@@ -164,7 +164,8 @@ const elements = {
   celebrationModal: document.getElementById("celebrationModal"),
   celebrationTitle: document.getElementById("celebrationTitle"),
   celebrationBody: document.getElementById("celebrationBody"),
-  closeCelebrationButton: document.getElementById("closeCelebrationButton")
+  closeCelebrationButton: document.getElementById("closeCelebrationButton"),
+  fxLayer: document.getElementById("fxLayer")
 };
 
 function currentMission() {
@@ -372,6 +373,40 @@ function pulse(element) {
   element.classList.add("flash");
 }
 
+function spawnBurst(target, tone = "gold") {
+  const rect = target.getBoundingClientRect();
+  const burst = document.createElement("div");
+  burst.className = "fx-burst";
+  burst.style.left = `${rect.left + rect.width / 2 - 8}px`;
+  burst.style.top = `${rect.top + rect.height / 2 - 8}px`;
+
+  const ring = document.createElement("div");
+  ring.className = "fx-ring";
+  if (tone === "teal") {
+    ring.style.borderColor = "rgba(130, 211, 200, 0.9)";
+  }
+  burst.appendChild(ring);
+
+  const vectors = [
+    [-54, -12], [-38, -34], [0, -52], [36, -34],
+    [54, -10], [40, 30], [0, 52], [-38, 30]
+  ];
+
+  vectors.forEach(([dx, dy]) => {
+    const spark = document.createElement("div");
+    spark.className = "fx-spark";
+    spark.style.setProperty("--dx", `${dx}px`);
+    spark.style.setProperty("--dy", `${dy}px`);
+    if (tone === "teal") {
+      spark.style.background = "linear-gradient(135deg, #82d3c8, #d9bb73)";
+    }
+    burst.appendChild(spark);
+  });
+
+  elements.fxLayer.appendChild(burst);
+  window.setTimeout(() => burst.remove(), 620);
+}
+
 function submitAnswer() {
   const mission = currentMission();
 
@@ -399,6 +434,7 @@ function submitAnswer() {
       unlockedClue ? "証拠を確保した" : "推理メモ更新",
       unlockedClue ? `手がかり『${unlockedClue.title}』を発見した。${unlockedClue.effect}` : mission.explanation
     );
+    spawnBurst(elements.feedbackCard, unlockedClue ? "teal" : "gold");
   } else {
     showFeedback("error", "推理を立て直そう", `正解は『${mission.answer}』。${mission.explanation}`);
   }
@@ -414,6 +450,7 @@ function submitAnswer() {
 
   if (unlockedClue) {
     showCelebration(unlockedClue);
+    spawnBurst(elements.clueBoard, "teal");
   }
 }
 
@@ -438,6 +475,7 @@ function solveCase() {
     elements.solutionCard.className = "solution-card success";
     elements.solutionCard.innerHTML = "<strong>事件解決</strong><p>犯人はソラ。午後6時50分に時計を止め、ペンダントを模型箱の底へ隠していた。証言、時刻、磁石の3つがきれいにつながった。</p>";
     pulse(elements.solutionCard);
+    spawnBurst(elements.solutionCard, "teal");
   } else {
     elements.solutionCard.className = "solution-card error";
     elements.solutionCard.innerHTML = "<strong>推理を組み立て直そう</strong><p>容疑者だけでなく、時刻と隠し場所まで1本の流れで考え直そう。</p>";
