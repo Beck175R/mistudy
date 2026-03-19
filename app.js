@@ -53,57 +53,57 @@ const caseData = {
 const missions = [
   {
     subject: "算数",
-    title: "時計塔の時こくを読む",
-    story: "長い針が10、短い針が6と7の間にある。正しい時こくを選ぼう。",
-    prompt: "正しい時こくはどれ？",
+    title: "現場検証: 止まった時計の時刻",
+    story: "現場のスケッチには『長い針は10、短い針は6と7の間』とある。犯人が時計を止めた時刻を特定しよう。",
+    prompt: "スケッチから読める時刻はどれ？",
     choices: ["6時10分", "6時50分", "7時10分", "7時50分"],
     answer: "6時50分",
-    explanation: "長い針が10なら50分。短い針が6と7の間なので6時50分です。"
+    explanation: "長い針が10なら50分。短い針が6と7の間なので、止まった時刻は6時50分だ。"
   },
   {
     subject: "国語",
-    title: "証言の主語を見抜く",
-    story: "証言文を読んで、だれの行動かを正確につかもう。",
-    prompt: "『レンは司会に向かい、ソラは展示室の前で待っていた。』待っていたのはだれ？",
+    title: "証言整理: だれが待っていた？",
+    story: "目撃メモには『レンは司会に向かい、ソラは展示室の前で待っていた』とある。行動の主語を取り違えると、容疑者を絞れない。",
+    prompt: "展示室の前で待っていたのはだれ？",
     choices: ["レン", "ソラ", "司会", "展示室"],
     answer: "ソラ",
-    explanation: "『ソラは』のあとの行動が『待っていた』です。"
+    explanation: "『ソラは』のあとの行動が『待っていた』にかかる。証言整理では主語が重要だ。"
   },
   {
     subject: "英語",
-    title: "英語メモを解読する",
-    story: "展示室のメモには『The pendant is under the box.』と書かれていた。",
-    prompt: "この意味として正しいものはどれ？",
+    title: "英語メモ解読: under の意味",
+    story: "展示室の隅で、英語の走り書きメモが見つかった。『The pendant is under the box.』この一文が隠し場所の決め手になる。",
+    prompt: "このメモの意味として正しいものはどれ？",
     choices: ["ペンダントは箱の上にある。", "ペンダントは箱の下にある。", "箱はペンダントの中にある。", "ペンダントは箱の横にある。"],
     answer: "ペンダントは箱の下にある。",
-    explanation: "'under' は『下に』という意味です。"
+    explanation: "'under' は『下に』。つまり隠し場所は箱の下側だ。"
   },
   {
     subject: "算数",
-    title: "暗号の数列を読む",
-    story: "見張り番のメモには 2, 4, 8, 16, ? と書かれていた。",
-    prompt: "続きに入る数は？",
+    title: "暗号解読: 数列の規則",
+    story: "見張り番のポケットから、2, 4, 8, 16, ? と書かれたメモが見つかった。規則を読めば次の合図がわかる。",
+    prompt: "続きに入る数はどれ？",
     choices: ["18", "24", "32", "34"],
     answer: "32",
-    explanation: "2倍ずつ増えているので、16の次は32です。"
+    explanation: "2倍ずつ増えている。16の次は32で、合図の規則は崩れていない。"
   },
   {
     subject: "国語",
-    title: "できごとの順番を読む",
-    story: "『放送が始まる前に、アオイは時計を見上げた。』先に起きたことを選ぼう。",
-    prompt: "先に起きたのはどれ？",
+    title: "時系列整理: 放送より前の行動",
+    story: "調査ノートには『放送が始まる前に、アオイは時計を見上げた』と書かれている。時系列を間違えると、アリバイが崩せない。",
+    prompt: "先に起きたことはどれ？",
     choices: ["放送が始まった", "アオイが時計を見上げた", "時計が止まった", "展示室が閉まった"],
     answer: "アオイが時計を見上げた",
-    explanation: "『前に』があるので、アオイが見上げたのが先です。"
+    explanation: "『前に』があるので、先に起きたのはアオイが時計を見上げたことだ。"
   },
   {
     subject: "英語",
-    title: "時刻の英語を読む",
-    story: "祭りの予定表に『The show starts at seven ten.』とある。",
-    prompt: "この時こくはどれ？",
+    title: "予定表の解読: seven ten",
+    story: "祭りの予定表には『The show starts at seven ten.』とある。司会者の動きを追えば、犯行時刻とずれが見えてくる。",
+    prompt: "予定表に書かれた時刻はどれ？",
     choices: ["7時01分", "7時10分", "7時17分", "10時07分"],
     answer: "7時10分",
-    explanation: "'seven ten' は7時10分です。"
+    explanation: "'seven ten' は7時10分。予定表どおりなら、この時間は司会中のはずだ。"
   }
 ];
 
@@ -242,18 +242,18 @@ function detectiveRank() {
 
 function liveHint() {
   if (state.unlockedClues === 0) {
-    return "時計塔の近くで見つかった小さな違和感を集めよう。";
+    return "まずは時計塔まわりの違和感を拾って、事件の入口を作ろう。";
   }
   if (state.unlockedClues === 1) {
-    return "甘いシロップは現場より屋台の気配が強い。";
+    return "甘いシロップは現場より屋台の匂いが強い。視線を塔の外へ向けよう。";
   }
   if (state.unlockedClues === 2) {
-    return "記録が残る人物は、犯行時刻から外れているかもしれない。";
+    return "記録がある人物ほど、犯行時刻から外れる可能性がある。証言と時間を比べよう。";
   }
   if (state.unlockedClues === 3) {
-    return "磁石、時計、箱。この3つを並べると真相が見える。";
+    return "磁石、時計、箱。この3つを並べると、犯人の手順が一本につながる。";
   }
-  return "手がかりはそろった。犯人、時刻、隠し場所を選んで事件を解決しよう。";
+  return "証拠はそろった。犯人、時刻、隠し場所を1つの推理にまとめよう。";
 }
 
 function renderMission() {
@@ -310,6 +310,7 @@ function renderClues() {
         <article class="clue-card flash">
           <h3>${clue.title}</h3>
           <p>${clue.summary}</p>
+          <p>${clue.effect}</p>
         </article>
       `;
     })
@@ -361,7 +362,7 @@ function updateAchievements() {
 
 function showCelebration(clue) {
   elements.celebrationTitle.textContent = clue.title;
-  elements.celebrationBody.textContent = `${clue.summary} ${clue.effect}`;
+  elements.celebrationBody.textContent = `${clue.summary} ${clue.effect} 真相に一歩近づいた。`;
   elements.celebrationModal.classList.remove("hidden");
 }
 
@@ -393,9 +394,13 @@ function submitAnswer() {
   updateAchievements();
 
   if (isCorrect) {
-    showFeedback("success", "推理メモ更新", unlockedClue ? `手がかり『${unlockedClue.title}』を発見した。` : mission.explanation);
+    showFeedback(
+      "success",
+      unlockedClue ? "証拠を確保した" : "推理メモ更新",
+      unlockedClue ? `手がかり『${unlockedClue.title}』を発見した。${unlockedClue.effect}` : mission.explanation
+    );
   } else {
-    showFeedback("error", "もう一度考えてみよう", `正解は『${mission.answer}』。${mission.explanation}`);
+    showFeedback("error", "推理を立て直そう", `正解は『${mission.answer}』。${mission.explanation}`);
   }
 
   renderStatus();
@@ -431,11 +436,11 @@ function solveCase() {
 
   if (ok) {
     elements.solutionCard.className = "solution-card success";
-    elements.solutionCard.innerHTML = "<strong>事件解決</strong><p>犯人はソラ。午後6時50分に時計を止め、ペンダントを模型箱の底へ隠していた。</p>";
+    elements.solutionCard.innerHTML = "<strong>事件解決</strong><p>犯人はソラ。午後6時50分に時計を止め、ペンダントを模型箱の底へ隠していた。証言、時刻、磁石の3つがきれいにつながった。</p>";
     pulse(elements.solutionCard);
   } else {
     elements.solutionCard.className = "solution-card error";
-    elements.solutionCard.innerHTML = "<strong>推理を組み立て直そう</strong><p>時刻と隠し場所のつながりをもう一度見直してみよう。</p>";
+    elements.solutionCard.innerHTML = "<strong>推理を組み立て直そう</strong><p>容疑者だけでなく、時刻と隠し場所まで1本の流れで考え直そう。</p>";
   }
 }
 
