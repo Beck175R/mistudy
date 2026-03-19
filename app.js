@@ -130,7 +130,6 @@ const state = {
 
 const elements = {
   suspectList: document.getElementById("suspectList"),
-  notebookPreview: document.getElementById("notebookPreview"),
   sparkValue: document.getElementById("sparkValue"),
   clueValue: document.getElementById("clueValue"),
   rankValue: document.getElementById("rankValue"),
@@ -182,34 +181,6 @@ function renderSuspects() {
           <h3>${suspect.name}</h3>
           <p>${suspect.hint}</p>
           <span class="suspect-meta">${suspect.role}</span>
-        </article>
-      `
-    )
-    .join("");
-}
-
-function renderNotebook() {
-  const notes = [];
-  if (state.spark === 0) {
-    notes.push({
-      title: "調査スタート",
-      body: "まずは3問解いて、最初の手がかりを見つけよう。"
-    });
-  }
-
-  caseData.clues.slice(0, state.unlockedClues).forEach((clue, index) => {
-    notes.push({
-      title: `メモ ${index + 1}`,
-      body: `${clue.summary} ${clue.effect}`
-    });
-  });
-
-  elements.notebookPreview.innerHTML = notes
-    .map(
-      (note) => `
-        <article class="note-card">
-          <h3>${note.title}</h3>
-          <p>${note.body}</p>
         </article>
       `
     )
@@ -452,7 +423,6 @@ function submitAnswer() {
   }
 
   renderStatus();
-  renderNotebook();
   renderClueBoard();
   renderTimeline();
   renderAchievements();
@@ -554,7 +524,6 @@ function bindEvents() {
 
 function init() {
   renderSuspects();
-  renderNotebook();
   renderStatus();
   renderMission();
   renderClueBoard();
