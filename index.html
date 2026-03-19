@@ -11,146 +11,135 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <div class="background-layer">
-    <div class="fog fog-a"></div>
-    <div class="fog fog-b"></div>
-    <div class="glow glow-a"></div>
-    <div class="glow glow-b"></div>
-  </div>
-
-  <main class="casefile">
-    <header class="topbar">
+  <div class="noise"></div>
+  <main class="app">
+    <header class="header">
       <div>
-        <p class="eyebrow">Case File 01</p>
+        <p class="kicker">CASE FILE 01</p>
         <h1>止まった時計塔と消えた星のペンダント</h1>
+        <p id="storyBeat" class="story-line">時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。</p>
       </div>
-      <div class="topbar-status">
-        <div class="status-pill">
+      <div class="header-stats">
+        <article class="stat-card">
           <span>ひらめき</span>
           <strong id="sparkValue">0</strong>
-        </div>
-        <div class="status-pill">
+        </article>
+        <article class="stat-card">
           <span>手がかり</span>
           <strong id="clueValue">0 / 4</strong>
-        </div>
-        <div class="status-pill">
+        </article>
+        <article class="stat-card">
           <span>ランク</span>
           <strong id="rankValue">見習い探偵</strong>
-        </div>
+        </article>
       </div>
     </header>
 
-    <section class="case-summary-bar">
-      <div class="summary-copy">
-        <p id="storyBeat">時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。</p>
-      </div>
-      <div class="progress-cluster">
-        <span id="progressBadge" class="badge">0%</span>
+    <section class="top-strip">
+      <div class="meter-panel">
+        <div class="meter-label-row">
+          <span>事件の解像度</span>
+          <strong id="progressBadge">0%</strong>
+        </div>
         <div class="meter-track">
           <div id="mysteryMeter" class="meter-fill"></div>
         </div>
-        <small id="nextReward">次の手がかりまであと3問</small>
+        <p id="nextReward" class="subtle">次の手がかりまであと3問</p>
+      </div>
+
+      <div class="mini-panel">
+        <span>進行章</span>
+        <div id="chapterTimeline" class="chapter-pills"></div>
+      </div>
+
+      <div class="mini-panel">
+        <span>探偵バッジ</span>
+        <div id="achievementList" class="achievement-pills"></div>
       </div>
     </section>
 
     <section class="workspace">
-      <aside class="left-rail">
-        <article class="panel board-panel">
-          <div class="panel-head">
-            <h2>容疑者ボード</h2>
-            <span class="mini-badge">4人</span>
-          </div>
-          <div id="suspectList" class="suspect-list compact"></div>
-        </article>
-
-        <article class="panel board-panel">
-          <div class="panel-head">
-            <h2>進行章</h2>
-            <span class="mini-badge">4章</span>
-          </div>
-          <div id="chapterTimeline" class="chapter-timeline compact"></div>
-        </article>
+      <aside class="left-panel panel">
+        <div class="panel-head">
+          <h2>容疑者</h2>
+          <span class="badge">4人</span>
+        </div>
+        <div id="suspectList" class="suspect-list"></div>
       </aside>
 
-      <section class="center-stage">
-        <article class="panel main-panel">
-          <div class="main-panel-head">
-            <div>
-              <p class="eyebrow">Investigation</p>
-              <h2 id="missionTitle">ミッションを準備中...</h2>
-            </div>
-            <div class="main-panel-meta">
-              <span id="missionSubject" class="subject-badge">算数</span>
-              <button id="changeMissionButton" class="ghost-button">別の問題</button>
-            </div>
+      <section class="center-panel panel">
+        <div class="panel-head">
+          <div>
+            <p class="kicker">INVESTIGATION</p>
+            <h2 id="missionTitle">ミッションを準備中...</h2>
           </div>
-
-          <p id="missionStory" class="mission-story"></p>
-
-          <div class="mission-progress">
-            <div class="mission-progress-copy">
-              <span>今回の調査セット</span>
-              <strong id="cycleLabel">0 / 3 問</strong>
-            </div>
-            <div class="meter-track compact">
-              <div id="cycleMeter" class="meter-fill"></div>
-            </div>
+          <div class="mission-head-right">
+            <span id="missionSubject" class="badge accent">算数</span>
+            <button id="changeMissionButton" class="ghost-button">別の問題</button>
           </div>
+        </div>
 
-          <div id="questionCard" class="question-card"></div>
-          <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+        <p id="missionStory" class="mission-copy"></p>
 
-          <div class="action-row">
-            <button id="submitAnswerButton" class="primary-button">回答する</button>
-            <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+        <div class="mission-progress">
+          <div class="meter-label-row">
+            <span>今回の調査セット</span>
+            <strong id="cycleLabel">0 / 3 問</strong>
           </div>
-        </article>
+          <div class="meter-track compact">
+            <div id="cycleMeter" class="meter-fill"></div>
+          </div>
+        </div>
 
-        <article class="panel footer-strip">
-          <div class="footer-note">
+        <div id="questionCard" class="question-card"></div>
+        <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+
+        <div class="button-row">
+          <button id="submitAnswerButton" class="primary-button">回答する</button>
+          <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+        </div>
+
+        <div class="bottom-status">
+          <article class="status-box">
             <span>調査メモ</span>
             <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
-          </div>
-          <div class="footer-note">
+          </article>
+          <article class="status-box narrow">
             <span>連続正解</span>
             <strong id="streakValue">0</strong>
-          </div>
-          <div class="footer-note">
-            <span>探偵バッジ</span>
-            <div id="achievementList" class="achievement-list compact"></div>
-          </div>
-        </article>
+          </article>
+        </div>
       </section>
 
-      <aside class="right-rail">
-        <article class="panel board-panel">
+      <aside class="right-panel">
+        <article class="panel clue-panel">
           <div class="panel-head">
-            <h2>手がかりボード</h2>
-            <span id="clueBoardBadge" class="mini-badge">0 / 4</span>
+            <h2>手がかり</h2>
+            <span id="clueBoardBadge" class="badge">0 / 4</span>
           </div>
-          <div id="clueBoard" class="clue-board-grid compact"></div>
+          <div id="clueBoard" class="clue-board"></div>
         </article>
 
-        <article class="panel board-panel deduction-panel">
+        <article class="panel solve-panel">
           <div class="panel-head">
             <h2>最終推理</h2>
-            <span id="deductionLock" class="lock-label">手がかりを4つ集めると解放</span>
+            <span id="deductionLock" class="lock-pill">手がかりを4つ集めると解放</span>
           </div>
-          <div class="form-stack compact-form">
-            <label class="select-block">
+          <div class="form-stack">
+            <label class="field">
               <span>犯人</span>
               <select id="culpritSelect"></select>
             </label>
-            <label class="select-block">
+            <label class="field">
               <span>本当の時刻</span>
               <select id="timeSelect"></select>
             </label>
-            <label class="select-block">
+            <label class="field">
               <span>隠し場所</span>
               <select id="placeSelect"></select>
             </label>
           </div>
-          <button id="solveCaseButton" class="primary-button full-width">事件を解決する</button>
+          <button id="solveCaseButton" class="primary-button wide">事件を解決する</button>
           <div id="solutionCard" class="solution-card hidden" aria-live="polite"></div>
         </article>
       </aside>
@@ -159,10 +148,10 @@
 
   <div id="celebrationModal" class="celebration-modal hidden" aria-live="polite">
     <div class="celebration-card">
-      <p class="eyebrow">Clue Unlocked</p>
+      <p class="kicker">CLUE UNLOCKED</p>
       <h2 id="celebrationTitle">新しい手がかりを発見</h2>
       <p id="celebrationBody"></p>
-      <button id="closeCelebrationButton" class="primary-button">調査を続ける</button>
+      <button id="closeCelebrationButton" class="primary-button">続ける</button>
     </div>
   </div>
 

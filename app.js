@@ -23,23 +23,23 @@ const caseData = {
   ],
   clues: [
     {
-      title: "手がかり1: 止まった針",
+      title: "止まった針",
       summary: "時計塔の長い針には、油ではなく甘いシロップが少し付いていた。",
       effect: "屋台の近くでしか付かない痕跡だ。"
     },
     {
-      title: "手がかり2: 図書館の貸出記録",
+      title: "図書館の記録",
       summary: "午後6時40分にユナが展示室の見回り記録を残している。",
-      effect: "午後7時ぴったりの犯行だとユナは犯人ではなさそう。"
+      effect: "午後7時ぴったりの犯行なら、ユナの線は薄くなる。"
     },
     {
-      title: "手がかり3: 消えた放送原稿",
-      summary: "レンの原稿には午後6時55分から7時10分まで連続で司会する予定が書かれていた。",
+      title: "消えた放送原稿",
+      summary: "レンは午後6時55分から7時10分まで連続で司会する予定だった。",
       effect: "レンも展示室を離れにくい。"
     },
     {
-      title: "手がかり4: 磁石つきの模型箱",
-      summary: "ソラの屋台の模型箱の底に、星形ペンダントがくっつく強力磁石が見つかった。",
+      title: "磁石つきの模型箱",
+      summary: "ソラの模型箱の底に、ペンダントがくっつく強力磁石が見つかった。",
       effect: "時計の針を止める仕掛けにも使えそうだ。"
     }
   ],
@@ -50,67 +50,69 @@ const caseData = {
   }
 };
 
-const missionDeck = [
+const missions = [
   {
-    id: "math-clock",
     subject: "算数",
-    title: "時計塔の時こくを見ぬけ",
-    story: "時計の長い針が10をさしている。短い針が6と7のあいだのとき、正しい時こくはどれ？",
-    prompt: "正しい時こくをえらぼう。",
+    title: "時計塔の時こくを読む",
+    story: "長い針が10、短い針が6と7の間にある。正しい時こくを選ぼう。",
+    prompt: "正しい時こくはどれ？",
     choices: ["6時10分", "6時50分", "7時10分", "7時50分"],
     answer: "6時50分",
-    explanation: "長い針が10なら50分。短い針が6と7の間だから6時台です。"
+    explanation: "長い針が10なら50分。短い針が6と7の間なので6時50分です。"
   },
   {
-    id: "jp-note",
     subject: "国語",
-    title: "証言メモの主語を見つける",
-    story: "次の文で『展示室の前で待っていた』のはだれ？ 主語を正しく読み取ろう。",
-    prompt: "『レンは司会に向かい、ソラは展示室の前で待っていた。』",
+    title: "証言の主語を見抜く",
+    story: "証言文を読んで、だれの行動かを正確につかもう。",
+    prompt: "『レンは司会に向かい、ソラは展示室の前で待っていた。』待っていたのはだれ？",
     choices: ["レン", "ソラ", "司会", "展示室"],
     answer: "ソラ",
-    explanation: "『ソラは』のあとに続く行動が『展示室の前で待っていた』です。"
+    explanation: "『ソラは』のあとの行動が『待っていた』です。"
   },
   {
-    id: "en-clue",
     subject: "英語",
     title: "英語メモを解読する",
-    story: "展示室のメモに英語で『The pendant is under the box.』と書かれていた。",
-    prompt: "この文の意味として正しいものをえらぼう。",
+    story: "展示室のメモには『The pendant is under the box.』と書かれていた。",
+    prompt: "この意味として正しいものはどれ？",
     choices: ["ペンダントは箱の上にある。", "ペンダントは箱の下にある。", "箱はペンダントの中にある。", "ペンダントは箱の横にある。"],
     answer: "ペンダントは箱の下にある。",
     explanation: "'under' は『下に』という意味です。"
   },
   {
-    id: "math-pattern",
     subject: "算数",
     title: "暗号の数列を読む",
-    story: "見張り番のメモには 2, 4, 8, 16, ? と書かれていた。次に入る数を見つけよう。",
+    story: "見張り番のメモには 2, 4, 8, 16, ? と書かれていた。",
     prompt: "続きに入る数は？",
     choices: ["18", "24", "32", "34"],
     answer: "32",
-    explanation: "2倍ずつ増えているので 16 の次は 32 です。"
+    explanation: "2倍ずつ増えているので、16の次は32です。"
   },
   {
-    id: "jp-order",
     subject: "国語",
-    title: "できごとの順番を並べる",
-    story: "『放送が始まる前に、アオイは時計を見上げた。』この文で先に起きたのはどれ？",
-    prompt: "先に起きたできごとをえらぼう。",
+    title: "できごとの順番を読む",
+    story: "『放送が始まる前に、アオイは時計を見上げた。』先に起きたことを選ぼう。",
+    prompt: "先に起きたのはどれ？",
     choices: ["放送が始まった", "アオイが時計を見上げた", "時計が止まった", "展示室が閉まった"],
     answer: "アオイが時計を見上げた",
-    explanation: "『前に』とあるので、アオイが時計を見上げたのが先です。"
+    explanation: "『前に』があるので、アオイが見上げたのが先です。"
   },
   {
-    id: "en-time",
     subject: "英語",
     title: "時刻の英語を読む",
     story: "祭りの予定表に『The show starts at seven ten.』とある。",
-    prompt: "この予定の時こくはどれ？",
+    prompt: "この時こくはどれ？",
     choices: ["7時01分", "7時10分", "7時17分", "10時07分"],
     answer: "7時10分",
-    explanation: "'seven ten' は 7時10分です。"
+    explanation: "'seven ten' は7時10分です。"
   }
+];
+
+const storyBeats = [
+  "時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。",
+  "針に残った不自然な跡。現場ではなく屋台のにおいがする。",
+  "記録と証言を比べると、犯行時刻が少しずつ見えてくる。",
+  "展示室より屋台側に決め手が集まり始めた。",
+  "最後の証拠がそろった。今なら真相を言葉にできる。"
 ];
 
 const state = {
@@ -118,24 +120,27 @@ const state = {
   streak: 0,
   answeredInCycle: 0,
   unlockedClues: 0,
-  selectedAnswer: null,
-  activeMissionIndex: 0,
+  selectedAnswer: "",
+  missionIndex: 0,
   deductionUnlocked: false,
   achievements: {
-    firstSpark: false,
-    clueHunter: false,
-    streakMaster: false
+    starter: false,
+    hunter: false,
+    streak: false
   }
 };
 
 const elements = {
-  suspectList: document.getElementById("suspectList"),
+  storyBeat: document.getElementById("storyBeat"),
   sparkValue: document.getElementById("sparkValue"),
   clueValue: document.getElementById("clueValue"),
   rankValue: document.getElementById("rankValue"),
   progressBadge: document.getElementById("progressBadge"),
-  nextReward: document.getElementById("nextReward"),
   mysteryMeter: document.getElementById("mysteryMeter"),
+  nextReward: document.getElementById("nextReward"),
+  chapterTimeline: document.getElementById("chapterTimeline"),
+  achievementList: document.getElementById("achievementList"),
+  suspectList: document.getElementById("suspectList"),
   missionTitle: document.getElementById("missionTitle"),
   missionSubject: document.getElementById("missionSubject"),
   missionStory: document.getElementById("missionStory"),
@@ -145,15 +150,12 @@ const elements = {
   feedbackCard: document.getElementById("feedbackCard"),
   submitAnswerButton: document.getElementById("submitAnswerButton"),
   nextQuestionButton: document.getElementById("nextQuestionButton"),
-  streakValue: document.getElementById("streakValue"),
   changeMissionButton: document.getElementById("changeMissionButton"),
-  clueBoard: document.getElementById("clueBoard"),
-  clueBoardBadge: document.getElementById("clueBoardBadge"),
-  deductionLock: document.getElementById("deductionLock"),
-  storyBeat: document.getElementById("storyBeat"),
-  chapterTimeline: document.getElementById("chapterTimeline"),
-  achievementList: document.getElementById("achievementList"),
   liveHint: document.getElementById("liveHint"),
+  streakValue: document.getElementById("streakValue"),
+  clueBoardBadge: document.getElementById("clueBoardBadge"),
+  clueBoard: document.getElementById("clueBoard"),
+  deductionLock: document.getElementById("deductionLock"),
   culpritSelect: document.getElementById("culpritSelect"),
   timeSelect: document.getElementById("timeSelect"),
   placeSelect: document.getElementById("placeSelect"),
@@ -165,13 +167,9 @@ const elements = {
   closeCelebrationButton: document.getElementById("closeCelebrationButton")
 };
 
-const storyBeats = [
-  "時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。",
-  "針に残った不自然な跡。誰かが機械ではなく別の方法で時計を止めたようだ。",
-  "アリバイが揺らぎ始めた。記録と証言をつなぐと、本当の時刻が見えてくる。",
-  "展示室ではなく、祭りの屋台側に犯人の手がかりが集まり始めている。",
-  "最後の証拠がそろった。今なら真相を言葉にできる。"
-];
+function currentMission() {
+  return missions[state.missionIndex];
+}
 
 function renderSuspects() {
   elements.suspectList.innerHTML = caseData.suspects
@@ -187,34 +185,62 @@ function renderSuspects() {
     .join("");
 }
 
+function renderChapters() {
+  elements.chapterTimeline.innerHTML = Array.from({ length: 4 }, (_, index) => {
+    const label = `第${index + 1}章`;
+    let className = "chip";
+
+    if (index < state.unlockedClues) {
+      className += " done";
+    } else if (index === state.unlockedClues || (index === 3 && state.deductionUnlocked)) {
+      className += " active";
+    }
+
+    return `<span class="${className}">${label}</span>`;
+  }).join("");
+}
+
+function renderAchievements() {
+  const items = [
+    { key: "starter", label: "開始" },
+    { key: "hunter", label: "証拠" },
+    { key: "streak", label: "連続" }
+  ];
+
+  elements.achievementList.innerHTML = items
+    .map((item) => `<span class="chip ${state.achievements[item.key] ? "done" : ""}">${item.label}</span>`)
+    .join("");
+}
+
 function renderStatus() {
   const progress = Math.round((state.unlockedClues / caseData.clues.length) * 100);
+
+  elements.storyBeat.textContent = storyBeats[state.unlockedClues];
   elements.sparkValue.textContent = String(state.spark);
   elements.clueValue.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
   elements.streakValue.textContent = String(state.streak);
   elements.progressBadge.textContent = `${progress}%`;
-  elements.clueBoardBadge.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
+  elements.mysteryMeter.style.width = `${progress}%`;
   elements.nextReward.textContent = `次の手がかりまであと${Math.max(0, 3 - state.answeredInCycle)}問`;
   elements.cycleLabel.textContent = `${state.answeredInCycle} / 3 問`;
-  elements.mysteryMeter.style.width = `${progress}%`;
   elements.cycleMeter.style.width = `${(state.answeredInCycle / 3) * 100}%`;
-  elements.storyBeat.textContent = storyBeats[state.unlockedClues];
-  elements.liveHint.textContent = getLiveHint();
-
-  if (state.unlockedClues >= 4) {
-    elements.rankValue.textContent = "名探偵候補";
-  } else if (state.unlockedClues >= 2) {
-    elements.rankValue.textContent = "調査エース";
-  } else {
-    elements.rankValue.textContent = "見習い探偵";
-  }
-
-  elements.deductionLock.textContent = state.deductionUnlocked
-    ? "すべての手がかりがそろった"
-    : "手がかりを4つ集めると解放";
+  elements.clueBoardBadge.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
+  elements.liveHint.textContent = liveHint();
+  elements.rankValue.textContent = detectiveRank();
+  elements.deductionLock.textContent = state.deductionUnlocked ? "推理可能" : "手がかりを4つ集めると解放";
 }
 
-function getLiveHint() {
+function detectiveRank() {
+  if (state.unlockedClues >= 4) {
+    return "事件解決直前";
+  }
+  if (state.unlockedClues >= 2) {
+    return "調査エース";
+  }
+  return "見習い探偵";
+}
+
+function liveHint() {
   if (state.unlockedClues === 0) {
     return "時計塔の近くで見つかった小さな違和感を集めよう。";
   }
@@ -227,24 +253,20 @@ function getLiveHint() {
   if (state.unlockedClues === 3) {
     return "磁石、時計、箱。この3つを並べると真相が見える。";
   }
-  return "手がかりはそろった。推理画面で犯人と時刻と隠し場所を選ぼう。";
-}
-
-function getCurrentMission() {
-  return missionDeck[state.activeMissionIndex];
+  return "手がかりはそろった。犯人、時刻、隠し場所を選んで事件を解決しよう。";
 }
 
 function renderMission() {
-  const mission = getCurrentMission();
+  const mission = currentMission();
+  state.selectedAnswer = "";
+
   elements.missionTitle.textContent = mission.title;
   elements.missionSubject.textContent = mission.subject;
   elements.missionStory.textContent = mission.story;
   elements.feedbackCard.className = "feedback-card hidden";
   elements.feedbackCard.innerHTML = "";
   elements.submitAnswerButton.disabled = false;
-  elements.submitAnswerButton.textContent = "回答する";
   elements.nextQuestionButton.classList.add("hidden");
-  state.selectedAnswer = null;
 
   const choices = mission.choices
     .map(
@@ -265,117 +287,43 @@ function renderMission() {
   elements.questionCard.querySelectorAll(".choice-button").forEach((button) => {
     button.addEventListener("click", () => {
       state.selectedAnswer = button.dataset.choice;
-      elements.questionCard.querySelectorAll(".choice-button").forEach((choiceButton) => {
-        choiceButton.classList.toggle("selected", choiceButton === button);
+      elements.questionCard.querySelectorAll(".choice-button").forEach((node) => {
+        node.classList.toggle("selected", node === button);
       });
     });
   });
 }
 
-function renderTimeline() {
-  const chapters = [
-    {
-      title: "第1章 現場の違和感",
-      body: "止まった針と祭りの空気から、最初のズレを見つける。 "
-    },
-    {
-      title: "第2章 記録の穴",
-      body: "司会原稿と見回り記録から、アリバイを切り分ける。"
-    },
-    {
-      title: "第3章 屋台の秘密",
-      body: "展示室ではなく、屋台側に犯人の痕跡が集まる。"
-    },
-    {
-      title: "第4章 真相の言語化",
-      body: "犯人、時刻、隠し場所を1つの推理にまとめる。"
-    }
-  ];
-
-  elements.chapterTimeline.innerHTML = chapters
-    .map((chapter, index) => {
-      let stateClass = "locked";
-      if (index < state.unlockedClues) {
-        stateClass = "completed";
-      } else if (index === state.unlockedClues || (index === 3 && state.deductionUnlocked)) {
-        stateClass = "active";
+function renderClues() {
+  elements.clueBoard.innerHTML = caseData.clues
+    .map((clue, index) => {
+      if (index >= state.unlockedClues) {
+        return `
+          <article class="clue-card locked">
+            <h3>ロック中</h3>
+            <p>3問ごとに新しい手がかりが開く。</p>
+          </article>
+        `;
       }
 
       return `
-        <article class="chapter-step ${stateClass}">
-          <h3>${chapter.title}</h3>
-          <p>${chapter.body}</p>
+        <article class="clue-card flash">
+          <h3>${clue.title}</h3>
+          <p>${clue.summary}</p>
         </article>
       `;
     })
     .join("");
 }
 
-function renderAchievements() {
-  const achievements = [
-    {
-      key: "firstSpark",
-      icon: "01",
-      title: "ひらめきスタート",
-      body: "最初の正解で調査が動き出す。"
-    },
-    {
-      key: "clueHunter",
-      icon: "02",
-      title: "手がかりハンター",
-      body: "2つ以上の証拠を開いて真相に近づく。"
-    },
-    {
-      key: "streakMaster",
-      icon: "03",
-      title: "連続推理マスター",
-      body: "3連続正解で調査テンポを上げる。"
-    }
-  ];
+function renderSelects() {
+  const culprits = ["アオイ", "レン", "ユナ", "ソラ"];
+  const times = ["午後6時40分", "午後6時50分", "午後7時00分", "午後7時10分"];
+  const places = ["展示ケースの上", "模型箱の底", "図書館の棚", "時計塔の階段"];
 
-  elements.achievementList.innerHTML = achievements
-    .map((achievement) => {
-      const unlocked = state.achievements[achievement.key];
-      return `
-        <article class="achievement-card ${unlocked ? "unlocked" : ""}">
-          <div class="achievement-icon">${achievement.icon}</div>
-          <h3>${achievement.title}</h3>
-          <p>${unlocked ? achievement.body : "まだロック中。遊びながら解放しよう。"}</p>
-        </article>
-      `;
-    })
-    .join("");
-}
-
-function unlockClueIfNeeded() {
-  if (state.answeredInCycle < 3) {
-    return null;
-  }
-
-  state.answeredInCycle = 0;
-
-  if (state.unlockedClues < caseData.clues.length) {
-    const unlockedClue = caseData.clues[state.unlockedClues];
-    state.unlockedClues += 1;
-    if (state.unlockedClues === caseData.clues.length) {
-      state.deductionUnlocked = true;
-    }
-    return unlockedClue;
-  }
-
-  return null;
-}
-
-function updateAchievements() {
-  if (state.spark >= 1) {
-    state.achievements.firstSpark = true;
-  }
-  if (state.unlockedClues >= 2) {
-    state.achievements.clueHunter = true;
-  }
-  if (state.streak >= 3) {
-    state.achievements.streakMaster = true;
-  }
+  elements.culpritSelect.innerHTML = culprits.map((value) => `<option value="${value}">${value}</option>`).join("");
+  elements.timeSelect.innerHTML = times.map((value) => `<option value="${value}">${value}</option>`).join("");
+  elements.placeSelect.innerHTML = places.map((value) => `<option value="${value}">${value}</option>`).join("");
 }
 
 function showFeedback(type, title, body) {
@@ -383,17 +331,51 @@ function showFeedback(type, title, body) {
   elements.feedbackCard.innerHTML = `<strong>${title}</strong><p>${body}</p>`;
 }
 
-function showCelebration(title, body) {
-  elements.celebrationTitle.textContent = title;
-  elements.celebrationBody.textContent = body;
+function maybeUnlockClue() {
+  if (state.answeredInCycle < 3 || state.unlockedClues >= caseData.clues.length) {
+    return null;
+  }
+
+  state.answeredInCycle = 0;
+  const clue = caseData.clues[state.unlockedClues];
+  state.unlockedClues += 1;
+
+  if (state.unlockedClues === caseData.clues.length) {
+    state.deductionUnlocked = true;
+  }
+
+  return clue;
+}
+
+function updateAchievements() {
+  if (state.spark >= 1) {
+    state.achievements.starter = true;
+  }
+  if (state.unlockedClues >= 2) {
+    state.achievements.hunter = true;
+  }
+  if (state.streak >= 3) {
+    state.achievements.streak = true;
+  }
+}
+
+function showCelebration(clue) {
+  elements.celebrationTitle.textContent = clue.title;
+  elements.celebrationBody.textContent = `${clue.summary} ${clue.effect}`;
   elements.celebrationModal.classList.remove("hidden");
 }
 
+function pulse(element) {
+  element.classList.remove("flash");
+  void element.offsetWidth;
+  element.classList.add("flash");
+}
+
 function submitAnswer() {
-  const mission = getCurrentMission();
+  const mission = currentMission();
 
   if (!state.selectedAnswer) {
-    showFeedback("info", "まだ選んでいないよ", "答えを1つえらんでから、もう一度押してね。");
+    showFeedback("info", "まだ選んでいないよ", "答えを1つ選んでから押してね。");
     return;
   }
 
@@ -407,108 +389,53 @@ function submitAnswer() {
     state.streak = 0;
   }
 
-  const unlockedClue = unlockClueIfNeeded();
+  const unlockedClue = maybeUnlockClue();
   updateAchievements();
 
   if (isCorrect) {
-    const clueMessage = unlockedClue
-      ? `新しい手がかり『${unlockedClue.title}』を入手。${unlockedClue.summary}`
-      : `正解。${mission.explanation}`;
-    showFeedback("success", "推理メモ更新", clueMessage);
+    showFeedback("success", "推理メモ更新", unlockedClue ? `手がかり『${unlockedClue.title}』を発見した。` : mission.explanation);
   } else {
-    const clueHint = unlockedClue
-      ? `まちがえたけれど、3問終えたので『${unlockedClue.title}』が開いた。${mission.explanation}`
-      : `正解は『${mission.answer}』。${mission.explanation}`;
-    showFeedback("error", "もう一度考えてみよう", clueHint);
+    showFeedback("error", "もう一度考えてみよう", `正解は『${mission.answer}』。${mission.explanation}`);
   }
 
   renderStatus();
-  renderClueBoard();
-  renderTimeline();
+  renderChapters();
   renderAchievements();
+  renderClues();
+  pulse(elements.feedbackCard);
+
   elements.submitAnswerButton.disabled = true;
   elements.nextQuestionButton.classList.remove("hidden");
 
   if (unlockedClue) {
-    showCelebration(unlockedClue.title, `${unlockedClue.summary} ${unlockedClue.effect}`);
+    showCelebration(unlockedClue);
   }
 }
 
 function nextMission() {
-  state.activeMissionIndex = (state.activeMissionIndex + 1) % missionDeck.length;
+  state.missionIndex = (state.missionIndex + 1) % missions.length;
   renderMission();
-}
-
-function renderClueBoard() {
-  elements.clueBoard.innerHTML = caseData.clues
-    .map((clue, index) => {
-      if (index >= state.unlockedClues) {
-        return `
-          <article class="clue-card locked">
-            <h3>ロックされた手がかり</h3>
-            <p>調査ミッションを進めるとここに新しい証拠が表示される。</p>
-          </article>
-        `;
-      }
-
-      return `
-        <article class="clue-card">
-          <h3>${clue.title}</h3>
-          <p>${clue.summary}</p>
-          <p><strong>ポイント:</strong> ${clue.effect}</p>
-        </article>
-      `;
-    })
-    .join("");
-}
-
-function fillSelectOptions() {
-  const culpritOptions = ["アオイ", "レン", "ユナ", "ソラ"];
-  const timeOptions = ["午後6時40分", "午後6時50分", "午後7時00分", "午後7時10分"];
-  const placeOptions = ["展示ケースの上", "模型箱の底", "図書館の棚", "時計塔の階段"];
-
-  elements.culpritSelect.innerHTML = culpritOptions
-    .map((option) => `<option value="${option}">${option}</option>`)
-    .join("");
-  elements.timeSelect.innerHTML = timeOptions
-    .map((option) => `<option value="${option}">${option}</option>`)
-    .join("");
-  elements.placeSelect.innerHTML = placeOptions
-    .map((option) => `<option value="${option}">${option}</option>`)
-    .join("");
 }
 
 function solveCase() {
   if (!state.deductionUnlocked) {
     elements.solutionCard.className = "solution-card info";
-    elements.solutionCard.innerHTML = "<strong>まだ推理できない</strong><p>手がかりを4つ集めてから挑戦しよう。</p>";
+    elements.solutionCard.innerHTML = "<strong>まだ推理できない</strong><p>先に4つの手がかりを集めよう。</p>";
     return;
   }
 
-  const culprit = elements.culpritSelect.value;
-  const time = elements.timeSelect.value;
-  const place = elements.placeSelect.value;
-  const isSolved =
-    culprit === caseData.solution.culprit &&
-    time === caseData.solution.time &&
-    place === caseData.solution.place;
+  const ok =
+    elements.culpritSelect.value === caseData.solution.culprit &&
+    elements.timeSelect.value === caseData.solution.time &&
+    elements.placeSelect.value === caseData.solution.place;
 
-  if (isSolved) {
-    state.achievements.clueHunter = true;
-    state.achievements.streakMaster = state.achievements.streakMaster || state.streak >= 3;
-    renderAchievements();
+  if (ok) {
     elements.solutionCard.className = "solution-card success";
-    elements.solutionCard.innerHTML = `
-      <strong>事件解決</strong>
-      <p>犯人はソラ。時計の針を磁石で止め、午後6時50分にペンダントを模型箱の底へ隠していた。</p>
-      <p>きみは町の名探偵。次は新しい事件の追加もできるようにしよう。</p>
-    `;
+    elements.solutionCard.innerHTML = "<strong>事件解決</strong><p>犯人はソラ。午後6時50分に時計を止め、ペンダントを模型箱の底へ隠していた。</p>";
+    pulse(elements.solutionCard);
   } else {
     elements.solutionCard.className = "solution-card error";
-    elements.solutionCard.innerHTML = `
-      <strong>推理を組み立て直そう</strong>
-      <p>手がかりを見直して、時刻と隠し場所のつながりを考えてみよう。</p>
-    `;
+    elements.solutionCard.innerHTML = "<strong>推理を組み立て直そう</strong><p>時刻と隠し場所のつながりをもう一度見直してみよう。</p>";
   }
 }
 
@@ -524,12 +451,12 @@ function bindEvents() {
 
 function init() {
   renderSuspects();
+  renderChapters();
+  renderAchievements();
   renderStatus();
   renderMission();
-  renderClueBoard();
-  renderTimeline();
-  renderAchievements();
-  fillSelectOptions();
+  renderClues();
+  renderSelects();
   bindEvents();
 }
 
