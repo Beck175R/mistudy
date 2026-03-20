@@ -294,6 +294,7 @@ select {
 
 .single-panel {
   max-width: 980px;
+  min-height: 0;
 }
 
 .panel-head {
@@ -354,11 +355,22 @@ select {
   line-height: 1.6;
 }
 
+.main-panel .panel-head,
+.main-panel .mission-copy,
+.main-panel .mission-progress,
+.main-panel .feedback-card,
+.main-panel .button-row {
+  flex-shrink: 0;
+}
+
 .question-card {
   padding: 18px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03));
   border: 1px solid var(--line);
   border-radius: 20px;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .question-label {
@@ -442,6 +454,11 @@ select {
   display: flex;
   gap: 10px;
   margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(12, 21, 34, 0), rgba(12, 21, 34, 0.94) 28%);
+  position: sticky;
+  bottom: 0;
 }
 
 .side-card {
@@ -673,6 +690,10 @@ select {
 
   .choice-button {
     min-height: 48px;
+  }
+
+  .question-card {
+    padding: 14px;
   }
 }
 
