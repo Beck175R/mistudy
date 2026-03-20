@@ -135,6 +135,7 @@ const elements = {
   missionTab: document.getElementById("missionTab"),
   cluesTab: document.getElementById("cluesTab"),
   solveTab: document.getElementById("solveTab"),
+  statusTab: document.getElementById("statusTab"),
   storyBeat: document.getElementById("storyBeat"),
   sparkValue: document.getElementById("sparkValue"),
   clueValue: document.getElementById("clueValue"),
@@ -507,7 +508,8 @@ function setActiveTab(tabName) {
   const map = {
     mission: elements.missionTab,
     clues: elements.cluesTab,
-    solve: elements.solveTab
+    solve: elements.solveTab,
+    status: elements.statusTab
   };
 
   elements.tabButtons.forEach((button) => {

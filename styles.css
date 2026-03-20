@@ -63,12 +63,11 @@ select {
   height: 100vh;
   padding: 16px;
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
   gap: 12px;
 }
 
 .header,
-.summary-row,
 .panel,
 .tab-button {
   background: var(--panel);
@@ -78,7 +77,6 @@ select {
 }
 
 .header,
-.summary-row,
 .panel {
   border-radius: 22px;
 }
@@ -109,6 +107,10 @@ select {
   margin: 10px 0 0;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.story-line.compact {
+  margin-top: 0;
 }
 
 .header-stats {
@@ -146,13 +148,6 @@ select {
   display: block;
   margin-top: 6px;
   font-size: 1rem;
-}
-
-.summary-row {
-  padding: 12px;
-  display: grid;
-  grid-template-columns: 1.1fr 0.95fr 0.95fr;
-  gap: 12px;
 }
 
 .meter-card,
@@ -239,12 +234,13 @@ select {
 }
 
 .tab-button {
-  min-height: 46px;
-  padding: 0 18px;
-  border-radius: 14px;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 12px;
   color: var(--muted);
   cursor: pointer;
   transition: transform 0.14s ease, background 0.14s ease;
+  font-size: 0.92rem;
 }
 
 .tab-button.active {
@@ -261,13 +257,6 @@ select {
   display: block;
 }
 
-.mission-layout {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1.45fr 0.55fr;
-  gap: 12px;
-}
-
 .clues-layout {
   height: 100%;
   display: grid;
@@ -275,10 +264,17 @@ select {
   gap: 12px;
 }
 
+.status-layout {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 12px;
+}
+
 .main-panel,
-.side-panel,
 .solve-panel,
-.clues-layout .panel {
+.clues-layout .panel,
+.status-layout .panel {
   height: 100%;
   padding: 16px;
 }
@@ -289,11 +285,15 @@ select {
 }
 
 .main-panel,
-.side-panel,
 .solve-panel,
-.clues-layout .panel {
+.clues-layout .panel,
+.status-layout .panel {
   display: flex;
   flex-direction: column;
+}
+
+.single-panel {
+  max-width: 980px;
 }
 
 .panel-head {
@@ -444,10 +444,6 @@ select {
   margin-top: 12px;
 }
 
-.side-panel {
-  gap: 12px;
-}
-
 .side-card {
   flex: 1;
   padding: 14px;
@@ -468,6 +464,21 @@ select {
   display: block;
   margin-top: 10px;
   font-size: 2rem;
+}
+
+.status-cards {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.status-cards.single {
+  grid-template-columns: 1fr;
+}
+
+.status-meter {
+  margin-top: 12px;
 }
 
 .suspect-list,
@@ -675,10 +686,10 @@ select {
   }
 
   .header,
-  .summary-row,
-  .mission-layout,
   .clues-layout,
-  .solve-grid {
+  .solve-grid,
+  .status-layout,
+  .status-cards {
     grid-template-columns: 1fr;
   }
 }

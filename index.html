@@ -19,7 +19,6 @@
       <div>
         <p class="kicker">CASE FILE 01</p>
         <h1>止まった時計塔と消えた星のペンダント</h1>
-        <p id="storyBeat" class="story-line">時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。</p>
       </div>
       <div class="header-stats">
         <article class="stat-card">
@@ -37,82 +36,47 @@
       </div>
     </header>
 
-    <section class="summary-row">
-      <div class="meter-card">
-        <div class="meter-label-row">
-          <span>事件の解像度</span>
-          <strong id="progressBadge">0%</strong>
-        </div>
-        <div class="meter-track">
-          <div id="mysteryMeter" class="meter-fill"></div>
-        </div>
-        <p id="nextReward" class="subtle">次の手がかりまであと3問</p>
-      </div>
-
-      <div class="chip-card">
-        <span>進行章</span>
-        <div id="chapterTimeline" class="chip-list"></div>
-      </div>
-
-      <div class="chip-card">
-        <span>探偵バッジ</span>
-        <div id="achievementList" class="chip-list"></div>
-      </div>
-    </section>
-
     <section class="workspace">
       <nav class="tabs" aria-label="画面切り替え">
         <button class="tab-button active" data-tab="mission">問題</button>
         <button class="tab-button" data-tab="clues">手がかり</button>
         <button class="tab-button" data-tab="solve">推理</button>
+        <button class="tab-button" data-tab="status">状況</button>
       </nav>
 
       <section id="missionTab" class="tab-panel active">
-        <div class="mission-layout">
-          <article class="panel main-panel">
-            <div class="panel-head">
-              <div>
-                <p class="kicker">INVESTIGATION</p>
-                <h2 id="missionTitle">ミッションを準備中...</h2>
-              </div>
-              <div class="mission-head-right">
-                <span id="missionSubject" class="badge accent">算数</span>
-                <button id="changeMissionButton" class="ghost-button">別の問題</button>
-              </div>
+        <article class="panel main-panel single-panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">INVESTIGATION</p>
+              <h2 id="missionTitle">ミッションを準備中...</h2>
             </div>
-
-            <p id="missionStory" class="mission-copy"></p>
-
-            <div class="mission-progress">
-              <div class="meter-label-row">
-                <span>今回の調査セット</span>
-                <strong id="cycleLabel">0 / 3 問</strong>
-              </div>
-              <div class="meter-track compact">
-                <div id="cycleMeter" class="meter-fill"></div>
-              </div>
+            <div class="mission-head-right">
+              <span id="missionSubject" class="badge accent">算数</span>
+              <button id="changeMissionButton" class="ghost-button">別の問題</button>
             </div>
+          </div>
 
-            <div id="questionCard" class="question-card"></div>
-            <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+          <p id="missionStory" class="mission-copy"></p>
 
-            <div class="button-row">
-              <button id="submitAnswerButton" class="primary-button">回答する</button>
-              <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+          <div class="mission-progress">
+            <div class="meter-label-row">
+              <span>今回の調査セット</span>
+              <strong id="cycleLabel">0 / 3 問</strong>
             </div>
-          </article>
+            <div class="meter-track compact">
+              <div id="cycleMeter" class="meter-fill"></div>
+            </div>
+          </div>
 
-          <aside class="panel side-panel">
-            <div class="side-card">
-              <span>調査メモ</span>
-              <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
-            </div>
-            <div class="side-card centered">
-              <span>連続正解</span>
-              <strong id="streakValue">0</strong>
-            </div>
-          </aside>
-        </div>
+          <div id="questionCard" class="question-card"></div>
+          <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+
+          <div class="button-row">
+            <button id="submitAnswerButton" class="primary-button">回答する</button>
+            <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+          </div>
+        </article>
       </section>
 
       <section id="cluesTab" class="tab-panel">
@@ -160,6 +124,49 @@
           <button id="solveCaseButton" class="primary-button wide">事件を解決する</button>
           <div id="solutionCard" class="solution-card hidden" aria-live="polite"></div>
         </article>
+      </section>
+
+      <section id="statusTab" class="tab-panel">
+        <div class="status-layout">
+          <article class="panel">
+            <div class="panel-head">
+              <h2>進行状況</h2>
+              <span id="progressBadge" class="badge">0%</span>
+            </div>
+            <p id="storyBeat" class="story-line compact">時計塔の鐘は止まり、町はざわついている。最初の3問で現場の空気を読もう。</p>
+            <div class="meter-track status-meter">
+              <div id="mysteryMeter" class="meter-fill"></div>
+            </div>
+            <p id="nextReward" class="subtle">次の手がかりまであと3問</p>
+            <div class="status-cards">
+              <div class="side-card">
+                <span>進行章</span>
+                <div id="chapterTimeline" class="chip-list"></div>
+              </div>
+              <div class="side-card">
+                <span>探偵バッジ</span>
+                <div id="achievementList" class="chip-list"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h2>調査メモ</h2>
+              <span class="badge">状況</span>
+            </div>
+            <div class="status-cards single">
+              <div class="side-card">
+                <span>現在のヒント</span>
+                <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
+              </div>
+              <div class="side-card centered">
+                <span>連続正解</span>
+                <strong id="streakValue">0</strong>
+              </div>
+            </div>
+          </article>
+        </div>
       </section>
     </section>
   </main>
