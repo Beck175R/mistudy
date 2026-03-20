@@ -13,6 +13,7 @@
 <body>
   <div class="noise"></div>
   <div id="fxLayer" class="fx-layer" aria-hidden="true"></div>
+
   <main class="app">
     <header class="header">
       <div>
@@ -36,8 +37,8 @@
       </div>
     </header>
 
-    <section class="top-strip">
-      <div class="meter-panel">
+    <section class="summary-row">
+      <div class="meter-card">
         <div class="meter-label-row">
           <span>事件の解像度</span>
           <strong id="progressBadge">0%</strong>
@@ -48,85 +49,100 @@
         <p id="nextReward" class="subtle">次の手がかりまであと3問</p>
       </div>
 
-      <div class="mini-panel">
+      <div class="chip-card">
         <span>進行章</span>
-        <div id="chapterTimeline" class="chapter-pills"></div>
+        <div id="chapterTimeline" class="chip-list"></div>
       </div>
 
-      <div class="mini-panel">
+      <div class="chip-card">
         <span>探偵バッジ</span>
-        <div id="achievementList" class="achievement-pills"></div>
+        <div id="achievementList" class="chip-list"></div>
       </div>
     </section>
 
     <section class="workspace">
-      <aside class="left-panel panel">
-        <div class="panel-head">
-          <h2>容疑者</h2>
-          <span class="badge">4人</span>
-        </div>
-        <div id="suspectList" class="suspect-list"></div>
-      </aside>
+      <nav class="tabs" aria-label="画面切り替え">
+        <button class="tab-button active" data-tab="mission">問題</button>
+        <button class="tab-button" data-tab="clues">手がかり</button>
+        <button class="tab-button" data-tab="solve">推理</button>
+      </nav>
 
-      <section class="center-panel panel">
-        <div class="panel-head">
-          <div>
-            <p class="kicker">INVESTIGATION</p>
-            <h2 id="missionTitle">ミッションを準備中...</h2>
-          </div>
-          <div class="mission-head-right">
-            <span id="missionSubject" class="badge accent">算数</span>
-            <button id="changeMissionButton" class="ghost-button">別の問題</button>
-          </div>
-        </div>
+      <section id="missionTab" class="tab-panel active">
+        <div class="mission-layout">
+          <article class="panel main-panel">
+            <div class="panel-head">
+              <div>
+                <p class="kicker">INVESTIGATION</p>
+                <h2 id="missionTitle">ミッションを準備中...</h2>
+              </div>
+              <div class="mission-head-right">
+                <span id="missionSubject" class="badge accent">算数</span>
+                <button id="changeMissionButton" class="ghost-button">別の問題</button>
+              </div>
+            </div>
 
-        <p id="missionStory" class="mission-copy"></p>
+            <p id="missionStory" class="mission-copy"></p>
 
-        <div class="mission-progress">
-          <div class="meter-label-row">
-            <span>今回の調査セット</span>
-            <strong id="cycleLabel">0 / 3 問</strong>
-          </div>
-          <div class="meter-track compact">
-            <div id="cycleMeter" class="meter-fill"></div>
-          </div>
-        </div>
+            <div class="mission-progress">
+              <div class="meter-label-row">
+                <span>今回の調査セット</span>
+                <strong id="cycleLabel">0 / 3 問</strong>
+              </div>
+              <div class="meter-track compact">
+                <div id="cycleMeter" class="meter-fill"></div>
+              </div>
+            </div>
 
-        <div id="questionCard" class="question-card"></div>
-        <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
+            <div id="questionCard" class="question-card"></div>
+            <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
 
-        <div class="button-row">
-          <button id="submitAnswerButton" class="primary-button">回答する</button>
-          <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
-        </div>
-
-        <div class="bottom-status">
-          <article class="status-box">
-            <span>調査メモ</span>
-            <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
+            <div class="button-row">
+              <button id="submitAnswerButton" class="primary-button">回答する</button>
+              <button id="nextQuestionButton" class="secondary-button hidden">次の問題へ</button>
+            </div>
           </article>
-          <article class="status-box narrow">
-            <span>連続正解</span>
-            <strong id="streakValue">0</strong>
+
+          <aside class="panel side-panel">
+            <div class="side-card">
+              <span>調査メモ</span>
+              <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
+            </div>
+            <div class="side-card centered">
+              <span>連続正解</span>
+              <strong id="streakValue">0</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="cluesTab" class="tab-panel">
+        <div class="clues-layout">
+          <article class="panel">
+            <div class="panel-head">
+              <h2>容疑者</h2>
+              <span class="badge">4人</span>
+            </div>
+            <div id="suspectList" class="suspect-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h2>手がかり</h2>
+              <span id="clueBoardBadge" class="badge">0 / 4</span>
+            </div>
+            <div id="clueBoard" class="clue-board"></div>
           </article>
         </div>
       </section>
 
-      <aside class="right-panel">
-        <article class="panel clue-panel">
-          <div class="panel-head">
-            <h2>手がかり</h2>
-            <span id="clueBoardBadge" class="badge">0 / 4</span>
-          </div>
-          <div id="clueBoard" class="clue-board"></div>
-        </article>
-
+      <section id="solveTab" class="tab-panel">
         <article class="panel solve-panel">
           <div class="panel-head">
             <h2>最終推理</h2>
             <span id="deductionLock" class="lock-pill">手がかりを4つ集めると解放</span>
           </div>
-          <div class="form-stack">
+
+          <div class="solve-grid">
             <label class="field">
               <span>犯人</span>
               <select id="culpritSelect"></select>
@@ -140,10 +156,11 @@
               <select id="placeSelect"></select>
             </label>
           </div>
+
           <button id="solveCaseButton" class="primary-button wide">事件を解決する</button>
           <div id="solutionCard" class="solution-card hidden" aria-live="polite"></div>
         </article>
-      </aside>
+      </section>
     </section>
   </main>
 

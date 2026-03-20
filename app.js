@@ -131,6 +131,10 @@ const state = {
 };
 
 const elements = {
+  tabButtons: document.querySelectorAll(".tab-button"),
+  missionTab: document.getElementById("missionTab"),
+  cluesTab: document.getElementById("cluesTab"),
+  solveTab: document.getElementById("solveTab"),
   storyBeat: document.getElementById("storyBeat"),
   sparkValue: document.getElementById("sparkValue"),
   clueValue: document.getElementById("clueValue"),
@@ -451,6 +455,7 @@ function submitAnswer() {
   if (unlockedClue) {
     showCelebration(unlockedClue);
     spawnBurst(elements.clueBoard, "teal");
+    setActiveTab(state.deductionUnlocked ? "solve" : "clues");
   }
 }
 
@@ -483,12 +488,34 @@ function solveCase() {
 }
 
 function bindEvents() {
+  elements.tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setActiveTab(button.dataset.tab);
+    });
+  });
+
   elements.submitAnswerButton.addEventListener("click", submitAnswer);
   elements.nextQuestionButton.addEventListener("click", nextMission);
   elements.changeMissionButton.addEventListener("click", nextMission);
   elements.solveCaseButton.addEventListener("click", solveCase);
   elements.closeCelebrationButton.addEventListener("click", () => {
     elements.celebrationModal.classList.add("hidden");
+  });
+}
+
+function setActiveTab(tabName) {
+  const map = {
+    mission: elements.missionTab,
+    clues: elements.cluesTab,
+    solve: elements.solveTab
+  };
+
+  elements.tabButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.tab === tabName);
+  });
+
+  Object.entries(map).forEach(([name, node]) => {
+    node.classList.toggle("active", name === tabName);
   });
 }
 
