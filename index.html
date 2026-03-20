@@ -58,18 +58,6 @@
               </div>
             </div>
 
-            <p id="missionStory" class="mission-copy"></p>
-
-            <div class="mission-progress">
-              <div class="meter-label-row">
-                <span>今回の調査セット</span>
-                <strong id="cycleLabel">0 / 3 問</strong>
-              </div>
-              <div class="meter-track compact">
-                <div id="cycleMeter" class="meter-fill"></div>
-              </div>
-            </div>
-
             <div id="questionCard" class="question-card"></div>
             <div id="feedbackCard" class="feedback-card hidden" aria-live="polite"></div>
 
@@ -80,6 +68,20 @@
           </article>
 
           <aside class="panel mission-side">
+            <div class="side-card">
+              <span>事件メモ</span>
+              <p id="missionStory" class="side-copy"></p>
+            </div>
+            <div class="side-card">
+              <span>進行</span>
+              <div class="meter-label-row">
+                <small>今回の調査セット</small>
+                <strong id="cycleLabel">0 / 3 問</strong>
+              </div>
+              <div class="meter-track compact">
+                <div id="cycleMeter" class="meter-fill"></div>
+              </div>
+            </div>
             <div class="side-card">
               <span>調査メモ</span>
               <p id="liveHint">時計塔の近くで見つかった小さな違和感を集めよう。</p>
