@@ -157,7 +157,9 @@ const elements = {
   nextQuestionButton: document.getElementById("nextQuestionButton"),
   changeMissionButton: document.getElementById("changeMissionButton"),
   liveHint: document.getElementById("liveHint"),
+  liveHintMirror: document.getElementById("liveHintMirror"),
   streakValue: document.getElementById("streakValue"),
+  streakValueMirror: document.getElementById("streakValueMirror"),
   clueBoardBadge: document.getElementById("clueBoardBadge"),
   clueBoard: document.getElementById("clueBoard"),
   deductionLock: document.getElementById("deductionLock"),
@@ -225,6 +227,9 @@ function renderStatus() {
   elements.sparkValue.textContent = String(state.spark);
   elements.clueValue.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
   elements.streakValue.textContent = String(state.streak);
+  if (elements.streakValueMirror) {
+    elements.streakValueMirror.textContent = String(state.streak);
+  }
   elements.progressBadge.textContent = `${progress}%`;
   elements.mysteryMeter.style.width = `${progress}%`;
   elements.nextReward.textContent = `次の手がかりまであと${Math.max(0, 3 - state.answeredInCycle)}問`;
@@ -232,6 +237,9 @@ function renderStatus() {
   elements.cycleMeter.style.width = `${(state.answeredInCycle / 3) * 100}%`;
   elements.clueBoardBadge.textContent = `${state.unlockedClues} / ${caseData.clues.length}`;
   elements.liveHint.textContent = liveHint();
+  if (elements.liveHintMirror) {
+    elements.liveHintMirror.textContent = liveHint();
+  }
   elements.rankValue.textContent = detectiveRank();
   elements.deductionLock.textContent = state.deductionUnlocked ? "推理可能" : "手がかりを4つ集めると解放";
 }
